@@ -10,15 +10,31 @@ export class ChatComponent implements OnInit {
 
   public mensaje: string = '';
 
+  public elemento: any; 
+
   constructor( public chatService: ChatService ) {
 
     // Aqui nos suscribimos al Observable que esta en el metodo de loadMessages en el chat.service.ts 
-    this.chatService.loadMessages().subscribe();
+    this.chatService.loadMessages().subscribe( ()=> {
+
+
+      setTimeout(() => {
+        
+
+        this.elemento.scrollTop = this.elemento.scrollHeight;
+
+      }, 20 );
+
+
+
+    });
 
 
   }
 
   ngOnInit() {
+
+    this.elemento = document.getElementById('app-mensajes');
 
 
 

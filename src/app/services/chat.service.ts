@@ -20,9 +20,10 @@ export class ChatService {
   // El valueChanges() es para estar pendiente de todos los cambios que ocurran el elemento, en este caso, en el itemsCollection
   public loadMessages() {
 
-    this.itemsCollection = this.afs.collection<MessageInterface>('chats');
+    // La ref es para hacer un query y ordenar los mensajes en forma descendete y obtenemos los ultimos 5 mensajes
+    this.itemsCollection = this.afs.collection<MessageInterface>('chats', ref => ref.orderBy( 'date', 'desc').limit(5));
 
-    // Regresamos este objeto, al cual nos tenemos que suscribir en otro lado, en este caso, nos suscribimos a él en el chat.component.ts
+    // Regresamos este objeto, al cual nos tenemos que suscribir en otro lado, en este caso, nos suscribimos a él en el chat.component.ts; unshift() es para insertar un elemento en la primera posicion del array 
     return this.itemsCollection.valueChanges().pipe(
 
 
@@ -30,7 +31,17 @@ export class ChatService {
 
         console.log( mensajes );
 
-        this.chats = mensajes;
+        this.chats = [];
+
+        for( let mensaje of mensajes ) {
+
+          this.chats.unshift( mensaje );
+
+        }
+
+        return this.chats; 
+
+        //this.chats = mensajes;
 
         
 
