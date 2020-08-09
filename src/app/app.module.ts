@@ -14,6 +14,9 @@ import { ChatComponent } from './components/chat/chat.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 
+// Para la autenticacion con Google
+import { AngularFireAuth } from '@angular/fire/auth';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +32,7 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule
 
   ],
-  providers: [],
+  providers: [ AngularFireAuth ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,10 @@ import { MessageInterface } from '../interfaces/MessageInterface';
 
 import { map } from 'rxjs/operators';
 
+// Para la autenticacion con Google
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +19,28 @@ export class ChatService {
 
   public chats: MessageInterface[] = [];
 
-  constructor( private afs: AngularFirestore ) { }
+  public usuario: any = {}; 
+
+  constructor( private afs: AngularFirestore, public auth: AngularFireAuth ) {
+
+
+    this.auth.authState.subscribe( user => {
+
+      console.log( 'Estado del usuario: ', user );
+
+      if ( !user ) {
+
+        return;
+
+      }
+
+      this.usuario.nombre = user.displayName;
+      this.usuario.uid = user.uid; 
+
+
+    });
+
+  }
 
   // El valueChanges() es para estar pendiente de todos los cambios que ocurran el elemento, en este caso, en el itemsCollection
   public loadMessages() {
@@ -76,6 +101,16 @@ export class ChatService {
 
 
 
+  }
+
+  // Este metodo viene por defecto en la pagina de autenticacion con google de firebase
+  login( proveedor: string ) {
+    this.auth.auth.signInWithPopup( new auth.GoogleAuthProvider() );
+  }
+
+  // Este metodo viene por defecto en la pagina de autenticacion con google de firebase
+  logout() {
+    this.auth.auth.signOut();
   }
 
 }
