@@ -105,11 +105,26 @@ export class ChatService {
 
   // Este metodo viene por defecto en la pagina de autenticacion con google de firebase
   login( proveedor: string ) {
-    this.auth.auth.signInWithPopup( new auth.GoogleAuthProvider() );
+    
+    if( proveedor === 'google' ) {
+
+      this.auth.auth.signInWithPopup( new auth.GoogleAuthProvider() );
+
+
+    } else {
+
+      this.auth.auth.signInWithPopup( new auth.GithubAuthProvider() );
+
+
+    }
+
   }
 
   // Este metodo viene por defecto en la pagina de autenticacion con google de firebase
   logout() {
+
+    this.usuario = {}; 
+
     this.auth.auth.signOut();
   }
 
