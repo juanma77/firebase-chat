@@ -86,9 +86,10 @@ export class ChatService {
 
     let mensaje: MessageInterface = {
 
-      name: 'Marcus',
+      name: this.usuario.nombre,
       mensaje: texto,
-      date: new Date()
+      date: new Date(),
+      uid: this.usuario.uid
 
 
     }
